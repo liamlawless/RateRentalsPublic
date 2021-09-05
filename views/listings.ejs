@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Search Properties</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<%- include('partials/navbar', {page:"listings"}) %>
+
+  <body>
+    <div id="searchBg">
+      <div class="title">
+        <h1 id="searchTitle" style="margin-bottom: 5px; margin-top:0px; padding-top:15px;color:white">Find a property
+        </h1>
+      </div>
+      <div id="searchbox">
+        <div id="searchdiv"><input id="pac-input" type="text" placeholder="Search city-state or address" />
+          <button id="search" type="submit" hidden>Search</button>
+        </div>
+      </div>
+    </div>
+    <% if (!locals.error && !locals.noListings && !locals.listings.length==0){%>
+      <div id="flexbox">
+        <% if (locals.coords){ %>
+          <div id="map_canvas1" style="overflow:unset"></div>
+          <% } %>
+            <ul id="listingsDiv" class="listings desktop">
+              <!-- Loop through the quotes-->
+              <% for(var i=0; i < locals.listings.length; i++) {%>
+                <li class="listing hid" data-rating=<%=locals.listings[i].rating %>>
+                  <div id="flexListing">
+                    <div
+                      style="flex:1; <% if (i==0){ %>margin: 0px 0px 10px 0px;<% } else if (i==locals.listings.length-1){ %>margin: 10px 0px 0px 0px; <% } else { %>margin: 10px 0px; <% } %>">
+                      <a class="address" href=<%="/listings/listing/" + locals.listings[i]._id%> ><%=
+                          locals.listings[i].address %>
+                      </a>
+                      <br>
+                      <div>
+                        <% if (locals.listings[i].rating){ %>
+                          <div>
+                            <%- include('partials/stars', {rating:locals.listings[i].rating, reviews:
+                              locals.listings[i].reviews.length}) %>
+                          </div>
+                          <% } else { %>
+                            No reviews
+                            <% } %>
+                      </div>
+                      <div>
+                        <%= locals.listings[i].city %>, <%= locals.listings[i].state %>
+                      </div>
+                    </div>
+                    <div
+                      style="flex:1; <% if (i==0){ %>margin: 0px 0px 10px 0px;<% } else if (i==locals.listings.length-1){ %>margin: 10px 0px 0px 0px; <% } else { %>margin: 10px 0px; <% } %>">
+                      <a onmousedown="window.location.href = '/listings/listing/<%=locals.listings[i]._id%>'"
+                        onclick="window.location.href = '/listings/listing/<%=locals.listings[i]._id%>'" class="imglink"
+                        href=<%="/listings/listing/" + locals.listings[i]._id%> >
+                        <div class="panoX" id="pano<%=i%>" visibile="false"></div>
+                      </a>
+
+                    </div>
+                    <div id="err<%=i%>" class="noPhotos"> No streetview photos found</div>
+                  </div>
+
+                </li>
+                <% } %>
+            </ul>
+      </div>
+
+      <% }else {%>
+        <% if(locals.noListings || locals.listings.length==0) {%>
+          <div style="margin:auto; width:fit-content; padding:5px">No listings found in this location. Search a specific
+            address to create one.</div>
+          <div id="map_canvas1" style="overflow:unset; margin:0px 15px 15px 15px"></div>
+          <% } else {%>
+            <div style="margin:auto; width:fit-content; padding:5px"> Listing not found. Perhaps the location is not a
+              rental property.</div>
+            <% }%>
+
+              <% } %>
+
+                <span id='variableJSON' <% if(locals.coords) {%> data-coords=<%=locals.coords%>
+                    <%}%> hidden>
+                      <%= JSON.stringify(locals.listings); %>
+                </span>
+                <script id = "script" src=<%=process.env.GOOGLE_KEY %> ></script>
+                <script src="/listings.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<%- include('partials/navbar', {page:"profile"}) %>
+
+  <body>
+    <div id="info">
+      <h2>Account info</h2>
+      <div id="accInfo">
+        <div class="accInfoParent">
+          <div class="accInfoDiv accInfoDivLeft">
+            <span class="accInfoSpan">Username</span>
+            <div>
+              <%=user.username%>
+            </div>
+          </div>
+          <div class="accInfoDiv accInfoDivRight">
+            <span class="accInfoSpan">Email</span>
+            <div>
+              <%=user.email%>
+            </div>
+          </div>
+        </div>
+
+        <div class="accInfoParent">
+          <div class="accInfoDiv accInfoDivLeft">
+            <span class="accInfoSpan">First name</span>
+            <div>
+              <%=user.firstname || "John"%>
+            </div>
+          </div>
+          <div class="accInfoDiv accInfoDivRight">
+            <span class="accInfoSpan">Last name</span>
+            <div>
+              <%=user.lastname || "Doe"%>
+            </div>
+          </div>
+        </div>
+
+        <div class="accInfoParent">
+          <div class="accInfoDiv accInfoDivLeft">
+            <span class="accInfoSpan">Password</span>
+            <div>
+              <%="*".repeat(user.password.length)%>
+            </div>
+          </div>
+          <div class="accInfoDiv accInfoDivRight" style = "margin-top:.65em; display:flex">
+            <div style = 'flex:0.5; float:none;'><a href="/users/password" class="address" style="font-size:1em">Change Password</a></div>
+            <div style = "flex:0.5;"><a id = "deleteAcc" class="address">Delete Account</a></div>
+          </div>
+        </div>
+
+        <div></div>
+      </div>
+      <h2>Reviews</h2>
+      <ul class="listings" id="reviews" style=" display: flex;
+      flex-direction: column;">
+        <!-- Loop through the quotes-->
+        <% for(var i=0; i < user.reviews.length; i++) {%>
+          <li name="listing" style="padding-bottom: 2px;" class = 'hid'>
+            <a name="address" class="address" style="float:none; font-size:1em" id=<%="a" +i%> href =
+              <%= "/listings/listing/" + user.reviews[i].listingId%>> Address</a>
+            <div name="view">
+              <div name="date" style='padding-top: 5px;'></div>
+              <span name="stars"></span><span name="title">Title</span>
+              <div name="comments">Comments</div>
+              <button name="delete" id=<%="del" +i%> value = '' data-listingid = '' data-reviewid = ''>Delete</button>
+              <button name="edit" id=<%="edit" +i%> value = '' >Edit</button>
+            </div>
+
+            <form name="postReview" style="display: none;" onsubmit="return false">
+              <div>Title: </div>
+              <div>
+                <input name="titleInput" type="text" placeholder="Ex title" name="title" minlength="3" maxlength="25"
+                  autocomplete="off" class="titleInput">
+              </div>
+              <div>Rating: </div>
+
+              <div class="txt-center">
+                <div name="starsInput" class="rating">
+                  <input name="star5" type="radio" value="5" class="radio-btn hide stars" />
+                  <label name="starBtn" for="star5">☆</label>
+                  <input name="star4" type="radio" value="4" class="radio-btn hide stars" />
+                  <label name="starBtn" for="star4">☆</label>
+                  <input name="star3" type="radio" value="3" class="radio-btn hide stars" />
+                  <label name="starBtn" for="star3">☆</label>
+                  <input name="star2" type="radio" value="2" class="radio-btn hide stars" />
+                  <label name="starBtn" for="star2">☆</label>
+                  <input name="star1" type="radio" value="1" class="radio-btn hide stars" />
+                  <label name="starBtn" for="star1">☆</label>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div><input name="ratingInput" type="range" name="rating" value="5" required="true" min="0" max="5"
+                  hidden>
+              </div>
+              <div>Comments: </div>
+              <div>
+                <textarea class="commentsArea" name="commentsArea" rows="5" cols="1000" placeholder="..."
+                  maxlength="3000" autocomplete="off"></textarea>
+              </div>
+              <button name="cancel">Cancel</button>
+              <button type="submit" name="confirm">Submit</button>
+            </form>
+          </li>
+          <% } %>
+      </ul>
+    </div>
+  </body>
+  <span id='variableJSON' hidden>
+    <%= JSON.stringify(user); %>
+  </span>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="/profile.js"></script>
+
+</html>

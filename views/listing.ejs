@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Listings</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<%- include('partials/navbar', {page:"listings"}) %>
+
+  <body>
+    <% if (listing){ %>
+      <div id="info">
+        <div class="address">
+          <%= listing.address %>
+        </div>
+        <div>
+          <%- include('partials/stars', {rating:listing.rating, reviews: listing.reviews.length}) %>
+        </div>
+        <div>
+          <%= listing.city %>, <%= listing.state %>
+        </div>
+        <div id="maps" style="display: flex;">
+          <div id="pano" visibile="false" style="flex:.5"></div>
+          <div id="map_canvas" style=" flex:.5"></div>
+        </div>
+
+        <div id="err"> No streetview photos found</div>
+        <div id="reviewReviews">
+          <% if (user && !reviewed){ %>
+            <div><button id="showReview" style="width:fit-content; display:none;">Leave a Review</button></div>
+            <div id="reviewHeader" style="display:hidden">
+              <h3>Leave a Review</h3>
+              <button id="reviewExit" onclick="exitReview()" class="exit">&times</button>
+            </div>
+            <form id="postReview" action=<%="/listings/listing/review/" + listing.id%> style = "display:hidden"
+              method="POST">
+              <div>Title: </div>
+              <div>
+                <input id="titleInput" type="text" placeholder="Ex title" name="title" minlength="3" maxlength="25"
+                  autocomplete="off">
+              </div>
+              <div>Rating: </div>
+
+              <div class="txt-center">
+                <div class="rating">
+                  <input id="star5" name="star" type="radio" value="5" class="radio-btn hide stars" />
+                  <label for="star5">☆</label>
+                  <input id="star4" name="star" type="radio" value="4" class="radio-btn hide stars" />
+                  <label for="star4">☆</label>
+                  <input id="star3" name="star" type="radio" value="3" class="radio-btn hide stars" />
+                  <label for="star3">☆</label>
+                  <input id="star2" name="star" type="radio" value="2" class="radio-btn hide stars" />
+                  <label for="star2">☆</label>
+                  <input id="star1" name="star" type="radio" value="1" class="radio-btn hide stars" />
+                  <label for="star1">☆</label>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div><input id="ratingInput" type="range" name="rating" value="5" required="true" min="0" max="5" hidden>
+              </div>
+              <div>Comments: </div>
+              <div>
+                <textarea id="commentsArea" rows="5" cols="1000" placeholder="..." name="comments" maxlength="3000"
+                  autocomplete="off"></textarea>
+              </div>
+              <button type="submit">Submit</button>
+            </form>
+            <% } else if (!user){ %>
+              <div><button id="showReviewNoUser" 1 style="width:fit-content;" onclick="openPopup()">Leave a
+                  Review</button></div>
+              <% } %>
+                <h3 style="margin:0px">Reviews</h3>
+                <div>
+                  <select id="selectOrder">
+                    <option value="upvotes">Upvotes</option>
+                    <option value="date">Date</option>
+                    <option value="starsdown">Most stars</option>
+                    <option value="starsup">Least stars</option>
+                  </select>
+                </div>
+
+                <ul id="reviews">
+
+                </ul>
+        </div>
+      </div>
+      <% }else{ %>
+        Listing not found
+        <% } %>
+          <span id='variableJSON' hidden>
+            <%= JSON.stringify(listing); %>
+          </span>
+          <span id='variableJSONUser' hidden>
+            <% if (user){ %>
+              <%= JSON.stringify(user); %>
+                <% } %>
+
+          </span>
+          <script id = "script" src=<%=process.env.GOOGLE_KEY %> ></script>
+          <script src="/listing.js"></script>
+
+  </body>
+
+</html>

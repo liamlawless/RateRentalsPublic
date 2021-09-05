@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<%- include('partials/navbar', {page:"home"}) %>
+
+  <body>
+    <div id="siteDesc">
+      <div id="infoSpan" class = "hid">Rate and review rental properties and homes</div>
+      <div class="infoSpan2 hid" >Learn about previous tenants experiences before you decide</div>
+      <div class="infoSpan2 hid">Search your city and browse the listings or search for a specific address</div>
+      <button class = "hid infoButton" id="infoButton" onclick="window.location.href = 'listings'">Find a place</button>
+    </div>
+
+    <div id="infoCont">
+      <div class="infoImage hid">
+        <div class="belowInfo">View a property and its location on the map</div>
+        <img id="infoImage" src="images/map2.png">
+
+      </div>
+
+      <div class="infoImage hid">
+        <div class="belowInfo">Leave a review on a property you've lived in</div>
+        <img src="images/review.png">
+      </div>
+    </div>
+  </body>
+  <script src = "index.js"></script>
+</html>

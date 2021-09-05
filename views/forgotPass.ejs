@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<%- include('partials/navbar', {page:"profile"}) %>
+<body>
+    <div id="forgotPass" >
+        <h1> Forgot Password </h1>
+        <div id = "desc">Enter the email address associated with your account:</div>
+        <div id="emailDiv"><input style = "margin:2px 0px 2px 0px" type="email" placeholder="email" id="email" required></div>
+        <button id="emailBtn" type="submit">Submit</button>
+    </div>
+</body>
+
+<script src="/forgotPass.js"></script>
+
+</html>

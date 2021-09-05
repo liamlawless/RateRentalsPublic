@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<%- include('partials/navbar', {page:"home"}) %>
+
+    <body>
+        <div id="changePass">
+            <h1> Change Password </h1>
+            <input type="password" placeholder="password" id="passwordDel" minlength="5" required style="position:absolute;top: -50px;" class = "passInput">
+            <div style = "display:flex;margin:5px 5px 5px 0px; position:relative">
+                <input type="password" placeholder="password" id="passwordx" minlength="5" required class = "passInput">
+                    <img id = "showpass" class = "verify" src = "/images/eye.png" width = "15px" height = "13px" > 
+            </div>
+            <div id="short" style="display:none; color:red">Password is too short</div>
+
+            <div style = "display:flex; margin:5px 5px 5px 0px; position:relative">
+                <input type="password" placeholder="verify password" id="verify" minlength="5" class = "passInput" >
+                <img id = "showverify" class = "verify" src = "/images/eye.png" width = "15px" height = "13px" >        
+            </div>
+            <div id="mismatch" style="display:none; color:red">Passwords do not match</div>
+            <a href="/users/profile"><button>Cancel</button></a>
+            <button id="update">Update</button>
+        </div>
+    </body>
+    <script src="/changePass.js"></script>
+
+</html>

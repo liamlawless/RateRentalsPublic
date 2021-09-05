@@ -1,0 +1,18 @@
+<!-- Stars implemented by https://codepen.io/seabadger/pen/aYNwMd - Gabor S-->
+<span class="ratingX" data-rating= <%=rating%>>
+    <span aria-hidden="true">
+        ★★★★★
+    </span>
+</span>
+<%=reviews%> reviews
+<script>
+    document.querySelectorAll('.ratingX')
+        .forEach((element) => {
+            const value = element.getAttribute('data-rating')
+            const fill = value * 20;
+            element.style.backgroundImage =
+                `linear-gradient(to right,#FFEA00, #FFEA00, ${fill}%, #000 1%, #000 99%)`;
+            element.setAttribute('aria-label', 'Rating: ' + value + ' of 5');
+            element.innerHTML = element.innerHTML.replace(/\s/gm, '');
+        });
+</script>

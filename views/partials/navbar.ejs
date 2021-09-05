@@ -1,0 +1,41 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<ul class="myNavbar">
+  <li id="dropNav" class="myNavbar"><a class="myNavbar">≡</a></li>
+  <li class="myNavbar link"><a class="myNavbar<% if (page=='home'){ %> active<% }%>" href="/">Home</a></li>
+  <li class="myNavbar link"><a class="myNavbar<% if (page=='listings'){ %> active<% }%>" href="/listings">Search</a></li>
+  <li class="myNavbar link"><a class="myNavbar<% if (page=='profile'){ %> active<% }%>" <% if (!user){ %>onclick =
+      "openPopupProf()"<% } else{ %> href = "/users/profile" <% } %>>Profile</a></li>
+  <li class="myNavbar link" id="loginBtn"><a class="myNavbar" <% if (!user){ %>onclick = "openPopup()"<% } else{ %> onclick = "logout()" <% } %> >
+          <% if (!user){ %>Login<% } else{ %>Logout <% } %></a>
+  </li>
+</ul>
+<div
+  <div class="popup" id="popupLogin">
+    <button class="exit" onclick="closePopupAnimation()">&times</button>
+    <div class="popupForm">
+      <div class="desc">Login</div>
+      <div><input type="text" placeholder="username or email" id="username" required></div>
+      <div id="passwordDiv"><input type="password" placeholder="password" id="password" required></div>
+      <button id="submit" type="submit" class="submit">Login</button>
+    </div>
+
+    <form id="registerForm" class="popupForm" onsubmit="return false">
+      <div class="desc">Register</div>
+      <div><input id="emailInput" type="email" placeholder="email" name="email" required></div>
+      <div><input id="userInput" type="text" placeholder="username" name="username" required></div>
+      <div id = "firstLastInput" style="display:flex;">
+        <input style="flex:.5; min-width:0; margin-right:2.5px" id="firstnameInput" type="text" placeholder="first name"
+          name="firstname" required>
+        <input style="flex:.5; min-width:0; margin-left:2.5px" id="lastnameInput" type="text" placeholder="last name"
+          name="lastname" required>
+      </div>
+      <div id="passwordDiv2" style="position:relative">
+        <input id="passInput" placeholder="password" name="password" minlength="5" required>
+      </div>
+      <div><button id = "registerSubmit" type="submit" class = "submit">Register</button></div>
+    </form>
+    <script src = "/constants.js"></script>
+    <script src="/login.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  </div>
+</div>
