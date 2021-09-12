@@ -314,6 +314,10 @@ a.address {
     font-size:.5em;
 }
 
+.listingsImg:hover {
+    cursor: pointer;
+}
+
 #searchBg {
     background-image: url('images/aptmt2edit.jpg');
     height:150px;
@@ -707,7 +711,10 @@ body {
 }
 
 
-
+.imglink {
+    height:200px;
+    width: 100%;
+}
 
 .belowInfo {
     font-family: "Source Serif Pro", "Georgia", "Cambria", "Times New Roman", "Times", serif;

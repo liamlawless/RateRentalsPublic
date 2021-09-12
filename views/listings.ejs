@@ -50,23 +50,14 @@
                         <%= locals.listings[i].city %>, <%= locals.listings[i].state %>
                       </div>
                     </div>
-                    <div
+                    <div class="imglink"
                       style="flex:1; <% if (i==0){ %>margin: 0px 0px 10px 0px;<% } else if (i==locals.listings.length-1){ %>margin: 10px 0px 0px 0px; <% } else { %>margin: 10px 0px; <% } %>">
-                      <a onmousedown="window.location.href = '/listings/listing/<%=locals.listings[i]._id%>'"
-                        onclick="window.location.href = '/listings/listing/<%=locals.listings[i]._id%>'" class="imglink"
-                        href=<%="/listings/listing/" + locals.listings[i]._id%> >
-                        <div class="panoX" id="pano<%=i%>" visibile="false"></div>
-                      </a>
-
                     </div>
-                    <div id="err<%=i%>" class="noPhotos"> No streetview photos found</div>
                   </div>
-
                 </li>
                 <% } %>
             </ul>
       </div>
-
       <% }else {%>
         <% if(locals.noListings || locals.listings.length==0) {%>
           <div style="margin:auto; width:fit-content; padding:5px">No listings found in this location. Search a specific
@@ -76,14 +67,19 @@
             <div style="margin:auto; width:fit-content; padding:5px"> Listing not found. Perhaps the location is not a
               rental property.</div>
             <% }%>
-
               <% } %>
 
                 <span id='variableJSON' <% if(locals.coords) {%> data-coords=<%=locals.coords%>
                     <%}%> hidden>
                       <%= JSON.stringify(locals.listings); %>
                 </span>
-                <script id = "script" src=<%=process.env.GOOGLE_KEY %> ></script>
+
+                <span id='varJ' <% if(locals.coords) {%> data-coords=<%=locals.coords%>
+                    <%}%> hidden>
+                      <%= JSON.stringify(process.env.GOO_KEY); %>
+                </span>
+                <script id = "script" src=<%='https://maps.googleapis.com/maps/api/js?key=' + process.env.GOO_KEY
+                  + '&libraries=places&v=weekly' %> ></script>
                 <script src="/listings.js"></script>
 
   </body>

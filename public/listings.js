@@ -1,7 +1,9 @@
 
 
 let input = document.getElementById("pac-input");
-
+let vari2 = (document.getElementById('varJ'));
+let goo = JSON.parse(vari2.innerHTML);
+vari2.remove();
 let search = document.getElementById("search");
 google.maps.event.addDomListener(window, 'load', initAutocomplete);
 let validAddr = false;
@@ -142,6 +144,8 @@ let map;
 let markers = [];
 let links = document.getElementsByClassName('address');
 let divListings = document.getElementsByClassName('listing');
+
+let imgLinks = document.getElementsByClassName("imglink");
 // https://stackoverflow.com/questions/28731200/google-maps-api-v3-google-street-view-and-google-street-view-static-image
 function initialize(urlstring, x) {
 	// skip the first character, we are not interested in the "?"
@@ -186,34 +190,6 @@ function initialize(urlstring, x) {
 		window.location.href = "/listings/listing/" + listings[x]._id;
 	});
 
-	// links[x].onmouseover = () => {
-	// 	marker.setLabel({
-	// 		text: listings[x].address,
-	// 		color: 'black',
-	// 		fontWeight: "bold",
-	// 		fontSize: "20px"
-	// 	});
-	// 	marker.setIcon(pinIconBig);
-	// };
-	// links[x].onmouseleave = () => {
-	// 	marker.setLabel(null);
-	// 	marker.setIcon(pinIcon);
-	// }
-
-	// panos[x].onmouseover = () => {
-	// 	marker.setLabel({
-	// 		text: listings[x].address,
-	// 		color: "black",
-	// 		fontWeight: "bold",
-	// 		fontSize: "16px"
-	// 	});
-	// 	marker.setIcon(pinIconBig);
-	// };
-	// panos[x].onmouseleave = () => {
-	// 	marker.setLabel(null);
-	// 	marker.setIcon(pinIcon);
-	// }
-
 	divListings[x].onmouseenter = () => {
 		marker.setLabel({
 			text: listings[x].address,
@@ -242,23 +218,44 @@ function initialize(urlstring, x) {
 		marker.setLabel(null);
 		marker.setIcon(pinIcon);
 	}
-	panoramas[x] = new google.maps.StreetViewPanorama(panos[x], panoramaOptions);
+	//panoramas[x] = new google.maps.StreetViewPanorama(panos[x], panoramaOptions);
 	sv.getPanoramaByLocation(myLatLngs[x], 50, (data, status) => {
 		// https://stackoverflow.com/questions/28731200/google-maps-api-v3-google-street-view-and-google-street-view-static-image
 		if (status == google.maps.StreetViewStatus.OK) {
-			panoramas[x].setPano(data.location.pano);
+			//panoramas[x].setPano(data.location.pano);
 			if (isNaN(headings[x])) {
 				headings[x] = google.maps.geometry.spherical.computeHeading(data.location.latLng, myLatLngs[x]);
 			}
-			panoramas[x].setPov({
-				heading: headings[x],
-				pitch: 0,
-				zoom: 1
-			});
-			panos[x].style.display = "block";
+			// panoramas[x].setPov({
+			// 	heading: headings[x],
+			// 	pitch: 0,
+			// 	zoom: 1
+			// });
+			
+			let apiString = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=";
+			apiString += myLatLngs[x].lat() + "," + myLatLngs[x].lng();
+			apiString += "&heading=" + headings[x] + "&pitch=0";
+			apiString += "&key=" + goo
+			let img = document.createElement("img");
+			img.style.width = '100%';
+			img.style.minWidth = "230px"
+			img.style.height = '200px';
+			img.className = "listingsImg";
+			img.src = apiString;
+			imgLinks[x].appendChild(img);
+			// panos[x].style.display = "block";
+			img.onclick = () => {
+				window.location.href = "/listings/listing/" + listings[x]._id;
+			}
 		} else {
-			panos[x].hidden = "true";
-			errs[x].style.display = "block";
+			// panos[x].hidden = "true";
+			// errs[x].style.display = "block";
+			let img = document.createElement("div");
+			img.style.width = '100%';
+			img.style.minWidth = "230px"
+			img.style.height = '200px';
+			img.innerHTML = "No photos found"
+			imgLinks[x].appendChild(img);
 		}
 	})
 		.catch(err => {
@@ -267,6 +264,8 @@ function initialize(urlstring, x) {
 }
 
 let vari = (document.getElementById('variableJSON'));
+
+
 let listings = JSON.parse(vari.innerHTML);
 let mapCoords = vari.dataset.coords;
 vari.remove();
@@ -390,4 +389,3 @@ if (listingsDiv) {
 		listingsDiv.classList.add('mobile');
 	}
 }
-
