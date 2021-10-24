@@ -55,6 +55,8 @@ app.get('/', (req, res) => {
             ipAddr = '75.6.176.154'
         }
     }
+    // Force Madison, WI on load since its the only place with data entries right now
+    ipAddr = '75.6.176.154'
     if (!req.session.location) {
         request('http://ip-api.io/api/json/' + ipAddr + '?fields=status,region,city,lat,lon')
             .then(response => {
